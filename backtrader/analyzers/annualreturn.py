@@ -18,23 +18,23 @@
 # along with this program.  If not, see <http://www.gnu.org/licenses/>.
 #
 ###############################################################################
-from __future__ import (absolute_import, division, print_function,
-                        unicode_literals)
+from __future__ import (absolute_import, division, print_function, unicode_literals)
 
 from collections import OrderedDict
 
-from backtrader.utils.py3 import range
 from backtrader import Analyzer
+from backtrader.utils.py3 import range
 
 
-class AnnualReturn(Analyzer):
+class AnnualReturn(Analyzer, round_value=2):
     '''
     This analyzer calculates the AnnualReturns by looking at the beginning
     and end of the year
 
     Params:
 
-      - (None)
+      - round_value (default: ''2'')
+        To how many decimals to round the annual return percentage.
 
     Member Attributes:
 
@@ -64,7 +64,7 @@ class AnnualReturn(Analyzer):
 
             if dt.year > cur_year:
                 if cur_year >= 0:
-                    annualret = (value_end / value_start) - 1.0
+                    annualret = round((value_end / value_start) - 1.0, self.round_value)
                     self.rets.append(annualret)
                     self.ret[cur_year] = annualret
 
@@ -81,7 +81,7 @@ class AnnualReturn(Analyzer):
 
         if cur_year not in self.ret:
             # finish calculating pending data
-            annualret = (value_end / value_start) - 1.0
+            annualret = round((value_end / value_start) - 1.0, self.round_value)
             self.rets.append(annualret)
             self.ret[cur_year] = annualret
 
