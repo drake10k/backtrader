@@ -47,7 +47,7 @@ class AnnualReturn(Analyzer):
       - Returns a dictionary of annual returns (key: year)
     '''
     params = (
-        ('round_value', 2.0)
+        ('round_value', 2),
     )
 
     def stop(self):
