@@ -26,7 +26,7 @@ from backtrader import Analyzer
 from backtrader.utils.py3 import range
 
 
-class AnnualReturn(Analyzer, round_value=2):
+class AnnualReturn(Analyzer):
     '''
     This analyzer calculates the AnnualReturns by looking at the beginning
     and end of the year
@@ -46,6 +46,9 @@ class AnnualReturn(Analyzer, round_value=2):
 
       - Returns a dictionary of annual returns (key: year)
     '''
+    params = (
+        ('round_value', 2)
+    )
 
     def stop(self):
         # Must have stats.broker
@@ -64,7 +67,7 @@ class AnnualReturn(Analyzer, round_value=2):
 
             if dt.year > cur_year:
                 if cur_year >= 0:
-                    annualret = round((value_end / value_start) - 1.0, self.round_value)
+                    annualret = round((value_end / value_start) - 1.0, self.p.round_value)
                     self.rets.append(annualret)
                     self.ret[cur_year] = annualret
 
@@ -81,7 +84,7 @@ class AnnualReturn(Analyzer, round_value=2):
 
         if cur_year not in self.ret:
             # finish calculating pending data
-            annualret = round((value_end / value_start) - 1.0, self.round_value)
+            annualret = round((value_end / value_start) - 1.0, self.p.round_value)
             self.rets.append(annualret)
             self.ret[cur_year] = annualret
 
